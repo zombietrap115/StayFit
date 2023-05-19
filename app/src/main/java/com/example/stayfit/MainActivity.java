@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button_weight);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonweight = findViewById(R.id.button_weight);
+        buttonweight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Hier starten Sie die andere Activity
