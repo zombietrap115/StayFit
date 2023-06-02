@@ -7,21 +7,25 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="StayFit"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:id="@+id/titleTextView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="StayFit"
+    android:textSize="32sp"
+    android:textStyle="bold"
+    android:gravity="center"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/weightTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Weight today: "
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Last Weight: "
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +35,21 @@
         android:id="@+id/button_weight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_background"
         android:text="Update Weight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weightTextView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/weightHistory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/button_background"
+        android:text="Weight History"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +59,8 @@
         android:id="@+id/stepCountTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:gravity="center"
         android:text="Steps today: 0"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +71,9 @@
         android:id="@+id/caloriesTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Basal metabolism: "
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="Calories burned at rest: "
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,14 +83,13 @@
         android:id="@+id/button_einstellungen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="480dp"
         android:background="@drawable/button_background"
         android:text="Settings"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/caloriesTextView" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

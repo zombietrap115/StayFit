@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
         gradlePluginPortal()
     }
 }
@@ -10,7 +11,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
+
 rootProject.name = "StayFit"
 include ':app'
