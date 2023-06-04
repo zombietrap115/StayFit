@@ -46,15 +46,11 @@ public class WeightEntryAdapter extends RecyclerView.Adapter<WeightEntryAdapter.
         holder.dateView.setText(currentItem.date);
         holder.weightView.setText(String.valueOf(currentItem.weightWithUnit));
 
-        // Highlight the item if it is selected
         holder.itemView.setBackgroundColor(currentItem.selected ? Color.LTGRAY : Color.WHITE);
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Toggle the selected status of the item
                 currentItem.selected = !currentItem.selected;
-                // Update the appearance of the item based on the new selected status
                 holder.itemView.setBackgroundColor(currentItem.selected ? Color.LTGRAY : Color.WHITE);
             }
         });

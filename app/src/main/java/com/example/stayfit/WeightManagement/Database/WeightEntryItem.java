@@ -5,7 +5,7 @@ public class WeightEntryItem {
     public String date;
     public float weight;
     public String weightWithUnit;
-    public boolean selected; // Neue Eigenschaft für die Auswahl
+    public boolean selected;
 
 
     public WeightEntryItem(int id, String date, float weight) {
@@ -13,6 +13,6 @@ public class WeightEntryItem {
         this.date = date;
         this.weight = weight;
         this.weightWithUnit = weight + " Kg";
-        this.selected = false; // Standardmäßig nicht ausgewählt
+        this.selected = false;
     }
 }

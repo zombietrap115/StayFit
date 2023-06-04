@@ -24,7 +24,6 @@ public class WeightHistory extends AppCompatActivity {
 
     AppDatabase db;
     LineChart lineChart;
-
     ArrayList<Entry> lineEntries;
 
     @Override

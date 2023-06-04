@@ -43,20 +43,14 @@ import java.util.List;
 import java.util.Locale;
 
 public class WeightInputActivity extends AppCompatActivity {
-
-
     AppDatabase db;
-    // Declare weightEntryItems as an instance variable
     private List<WeightEntryItem> weightEntryItems = new ArrayList<>();
     private WeightEntryAdapter adapter;
     EditText weightInput;
     Bitmap bitmap;
     Button saveButton;
-
     Button cameraButton;
-
     Button deleteButton;
-
     private static final int REQUEST_CAMERA_CODE = 100;
 
     @Override
@@ -69,7 +63,6 @@ public class WeightInputActivity extends AppCompatActivity {
         weightInput = findViewById(R.id.weightInput);
         saveButton = findViewById(R.id.saveButton);
         cameraButton = findViewById(R.id.camera);
-
 
         if(ContextCompat.checkSelfPermission(WeightInputActivity.this, Manifest.permission.CAMERA)!=
         PackageManager.PERMISSION_GRANTED){
@@ -88,7 +81,6 @@ public class WeightInputActivity extends AppCompatActivity {
         });
 
         saveButton.setOnClickListener(v -> {
-            String checkFloat = "[-+]?[0-9]*\\.?[0-9]+";
 
             String input = weightInput.getText().toString();
 
@@ -99,7 +91,6 @@ public class WeightInputActivity extends AppCompatActivity {
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                 AppDatabase.WeightEntry entry = new AppDatabase.WeightEntry(0, date, weight);
 
-                // You should perform database operations off the main thread
                 new Thread(() -> {
                     db.weightEntryDao().insertAll(entry);
                 }).start();
@@ -125,22 +116,16 @@ public class WeightInputActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Loop through the items in reverse order (so you can remove items while iterating)
                 for (int i = weightEntryItems.size() - 1; i >= 0; i--) {
                     WeightEntryItem item = weightEntryItems.get(i);
                     if (item.selected) {
-                        // Remove the item from the database in a new thread
                         new Thread(() -> {
                             AppDatabase.WeightEntry entry = new AppDatabase.WeightEntry(item.id, item.date, item.weight);
                             db.weightEntryDao().delete(entry);
                         }).start();
-
-                        // Remove the item from the list
                         weightEntryItems.remove(i);
                     }
                 }
-
-                // Notify the RecyclerView that the data set has changed
                 adapter.notifyDataSetChanged();
             }
         });
@@ -164,13 +149,12 @@ public class WeightInputActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     private void getTextFromImage(Bitmap bitmap) {
         TextRecognizer recognizer = new TextRecognizer.Builder(this).build();
         if (!recognizer.isOperational()) {
-            Toast.makeText(WeightInputActivity.this, "Error Occurred!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WeightInputActivity.this, "No weight found", Toast.LENGTH_SHORT).show();
         } else {
             Frame frame = new Frame.Builder().setBitmap(bitmap).build();
             SparseArray<TextBlock> textBlockSparseArray = recognizer.detect(frame);
@@ -179,7 +163,6 @@ public class WeightInputActivity extends AppCompatActivity {
                 TextBlock textBlock = textBlockSparseArray.valueAt(i);
                 stringBuilder.append(textBlock.getValue());
                 stringBuilder.append("\n");
-
             }
             weightInput.setText(stringBuilder.toString());
         }

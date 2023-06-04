@@ -35,7 +35,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    AppDatabase db;  // move database instance to class level so it can be shared between methods
+    AppDatabase db;
 
     private WeightEntryAdapter adapter;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();  // initialise db here
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();
 
         buttonweight = findViewById(R.id.button_weight);
 
@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         buttonweight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Hier starten Sie die andere Activity
                 Intent intent = new Intent(MainActivity.this, WeightInputActivity.class);
                 startActivity(intent);
             }
@@ -83,11 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         weightHistory = findViewById(R.id.weightHistory);
 
-
         weightHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Hier starten Sie die andere Activity
                 Intent intent = new Intent(MainActivity.this, WeightHistory.class);
                 startActivity(intent);
             }
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override   // onResume should be on the same level as onCreate
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -112,9 +109,5 @@ public class MainActivity extends AppCompatActivity {
         //655,1 + (9,6 x Körpergewicht in kg) + (1,8 x Körpergröße in cm) – (4,7 x Alter in Jahren). (Frau)
         //66 + (13.7 x Gewicht in Kilogramm) + (5 x Körpergröße in cm) – (6.8 x Alter in Jahren) (Mann)
     }
-
-
-
-
     }
 
