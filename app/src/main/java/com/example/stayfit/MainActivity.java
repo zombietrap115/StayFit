@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -51,10 +53,37 @@ public class MainActivity extends AppCompatActivity {
 
     TextView caloriesBurned;
 
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // SharedPreferences-Objekt abrufen
+        sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE);
+
+        // Überprüfen, ob es das erste Mal ist, dass die App gestartet wird
+        boolean isFirstRun = sharedPref.getBoolean("IsFirstRun", true);
+
+        if (isFirstRun) {
+            // Wenn es das erste Mal ist, starten Sie die bestimmte Activity
+
+            // SharedPreferences-Editor zum Ändern der SharedPreferences-Daten abrufen
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            // "IsFirstRun" auf false setzen
+            editor.putBoolean("IsFirstRun", false);
+
+            // Änderungen speichern
+            editor.apply();
+
+            // Starten Sie die bestimmte Activity
+            startActivity(new Intent(MainActivity.this, Settings.class));
+
+            // Beenden Sie die aktuelle Activity
+            finish();
+        }
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();
 
@@ -97,13 +126,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+
         latestWeightView = findViewById(R.id.weightTextView);
 
         db.weightEntryDao().getLatestEntry().observe(this, latestEntry -> {
             if (latestEntry != null) {
                 latestWeightView.setText(String.valueOf("Latest weight: " + latestEntry.weight));
-                double calories=((655.1+(9.6*latestEntry.weight)+(1.8*185)-(4.7*22)));//Frau
-                caloriesBurned.setText(String.valueOf("Calories burned at rest: "+calories));
+
+                String heightString = sharedPref.getString("heighttextValue", "");
+                int height = heightString.isEmpty() ? 0 : Integer.parseInt(heightString);
+                String genderString = sharedPref.getString("genderValue", "");
+
+                if(genderString=="Female") {
+                    double calories = ((655.1 + (9.6 * latestEntry.weight) + (1.8 * height) - (4.7 * 22)));//Frau
+                    caloriesBurned.setText(String.valueOf("Calories burned at rest: "+calories));
+                } else {
+                    double calories = ((66 + (13.7 * latestEntry.weight) + (5 * height) - (6.8 * 22)));//Mann
+                    caloriesBurned.setText(String.valueOf("Calories burned at rest: " + calories));
+                }
             }
         });
         //655,1 + (9,6 x Körpergewicht in kg) + (1,8 x Körpergröße in cm) – (4,7 x Alter in Jahren). (Frau)
