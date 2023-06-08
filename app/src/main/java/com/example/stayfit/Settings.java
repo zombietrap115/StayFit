@@ -62,7 +62,7 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-
+        createNotificationChannel();
 
         timeEdit = findViewById(R.id.editTextTime);
         heightEdit = findViewById(R.id.editTextHeight);
@@ -75,7 +75,6 @@ public class Settings extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE);
 
-        createNotificationChannel();
 
         timeEdit.setText(getTime());
         heightEdit.setText(getHeight());
@@ -113,12 +112,10 @@ public class Settings extends AppCompatActivity {
 
 
                 if (!time.isEmpty() && !height.isEmpty() && !selectedGender.isEmpty()) {
-                    cancelAlarm();
                     saveFromTimeText(timeEdit.getText().toString());
                     saveFromHeightText(heightEdit.getText().toString());
                     saveGender(getSelectedGender());
                     saveNumberPickerValue(numberPicker.getValue());
-                    setAlarm();
                     Toast.makeText(Settings.this, "Saved", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Settings.this, MainActivity.class);
                     startActivity(intent);
@@ -164,7 +161,7 @@ public class Settings extends AppCompatActivity {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
+        Toast.makeText(this, "Alarm set Successfully", Toast.LENGTH_SHORT).show();
     }
 
     private void showTimePicker() {
@@ -191,10 +188,7 @@ public class Settings extends AppCompatActivity {
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
 
-                if (calendar.before(Calendar.getInstance())) {
-                    calendar.add(Calendar.DATE, 1);
-                } //ka
-
+                setAlarm();
 
             }
         });
