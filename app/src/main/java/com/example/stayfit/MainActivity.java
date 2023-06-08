@@ -5,10 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
 
+    TextView bmiText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
         caloriesBurned = findViewById(R.id.caloriesTextView);
 
+        bmiText = findViewById(R.id.textViewBMI);
+
+
         buttonweight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -134,20 +144,32 @@ public class MainActivity extends AppCompatActivity {
                 latestWeightView.setText(String.valueOf("Latest weight: " + latestEntry.weight));
 
                 String heightString = sharedPref.getString("heighttextValue", "");
-                int height = heightString.isEmpty() ? 0 : Integer.parseInt(heightString);
+                double height = heightString.isEmpty() ? 0 : Integer.parseInt(heightString);
                 String genderString = sharedPref.getString("genderValue", "");
+                int age = sharedPref.getInt("ageValue",1);
 
                 if(genderString=="Female") {
-                    double calories = ((655.1 + (9.6 * latestEntry.weight) + (1.8 * height) - (4.7 * 22)));//Frau
-                    caloriesBurned.setText(String.valueOf("Calories burned at rest: "+calories));
+                    double calories = ((655.1 + (9.6 * latestEntry.weight) + (1.8 * height) - (4.7 * age)));//Frau
+                    caloriesBurned.setText(String.valueOf("Calories burned at rest: "+String.format("%.0f", calories) + " kcals"));
                 } else {
-                    double calories = ((66 + (13.7 * latestEntry.weight) + (5 * height) - (6.8 * 22)));//Mann
-                    caloriesBurned.setText(String.valueOf("Calories burned at rest: " + calories));
+                    double calories = ((66 + (13.7 * latestEntry.weight) + (5 * height) - (6.8 * age)));//Mann
+                    caloriesBurned.setText(String.valueOf("Calories burned at rest: " + String.format("%.0f", calories) + " kcals"));
                 }
+
+                double heightM = height/100;
+
+                double bmi = latestEntry.weight/ Math.pow(heightM,2.0);
+                bmiText.setText(String.valueOf("BMI: " + String.format("%.1f", bmi)));
+
+                //Körpergewicht (in kg) geteilt durch Körpergröße (in m) zum Quadrat.
+
             }
         });
         //655,1 + (9,6 x Körpergewicht in kg) + (1,8 x Körpergröße in cm) – (4,7 x Alter in Jahren). (Frau)
         //66 + (13.7 x Gewicht in Kilogramm) + (5 x Körpergröße in cm) – (6.8 x Alter in Jahren) (Mann)
+
+
+
     }
     }
 

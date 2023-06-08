@@ -1,11 +1,13 @@
 package com.example.stayfit.WeightManagement;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.browse.MediaBrowser;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.SparseArray;
@@ -18,11 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.Manifest;
 import com.example.stayfit.R;
 import com.example.stayfit.WeightManagement.Database.AppDatabase;
 import com.example.stayfit.WeightManagement.Database.WeightEntryAdapter;
@@ -33,6 +35,8 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -52,6 +56,8 @@ public class WeightInputActivity extends AppCompatActivity {
     Button cameraButton;
     Button deleteButton;
     private static final int REQUEST_CAMERA_CODE = 100;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +71,7 @@ public class WeightInputActivity extends AppCompatActivity {
         cameraButton = findViewById(R.id.camera);
 
         if(ContextCompat.checkSelfPermission(WeightInputActivity.this, Manifest.permission.CAMERA)!=
-        PackageManager.PERMISSION_GRANTED){
+                PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(WeightInputActivity.this, new String[]{
                     Manifest.permission.CAMERA
             }, REQUEST_CAMERA_CODE );
@@ -74,9 +80,7 @@ public class WeightInputActivity extends AppCompatActivity {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(WeightInputActivity.this);
-
+                dispatchTakePictureIntent();
             }
         });
 
@@ -129,15 +133,44 @@ public class WeightInputActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
 
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.stayfit.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
 
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Uri imageUri = Uri.fromFile(new File(currentPhotoPath));
+            CropImage.activity(imageUri).start(this);
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
@@ -167,7 +200,15 @@ public class WeightInputActivity extends AppCompatActivity {
             weightInput.setText(stringBuilder.toString());
         }
     }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 }
+
 
 /*try {
                     Intent intent = new Intent();
