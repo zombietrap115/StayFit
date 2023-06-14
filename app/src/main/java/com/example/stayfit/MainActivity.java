@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextView bmiText;
 
+    Button collectSteps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
         bmiText = findViewById(R.id.textViewBMI);
 
+        collectSteps = findViewById(R.id.collectSteps);
+
 
         buttonweight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
+            }
+        });
+
+        collectSteps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CollectSteps.class);
                 startActivity(intent);
             }
         });

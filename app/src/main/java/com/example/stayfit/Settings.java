@@ -116,6 +116,7 @@ public class Settings extends AppCompatActivity {
                     saveFromHeightText(heightEdit.getText().toString());
                     saveGender(getSelectedGender());
                     saveNumberPickerValue(numberPicker.getValue());
+                    setAlarm();
                     Toast.makeText(Settings.this, "Saved", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Settings.this, MainActivity.class);
                     startActivity(intent);
@@ -161,7 +162,7 @@ public class Settings extends AppCompatActivity {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Toast.makeText(this, "Alarm set Successfully", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Alarm set Successfully", Toast.LENGTH_SHORT).show();
     }
 
     private void showTimePicker() {
@@ -188,7 +189,7 @@ public class Settings extends AppCompatActivity {
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
 
-                setAlarm();
+                //setAlarm();
 
             }
         });
