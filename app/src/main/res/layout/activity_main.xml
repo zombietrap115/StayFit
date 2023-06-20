@@ -7,17 +7,16 @@
     tools:context=".MainActivity">
 
     <TextView
-    android:id="@+id/titleTextView"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="StayFit"
-    android:textSize="32sp"
-    android:textStyle="bold"
-    android:gravity="center"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="StayFit"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/weightTextView"
@@ -56,28 +55,16 @@
         app:layout_constraintTop_toBottomOf="@id/weightTextView" />
 
     <TextView
-        android:id="@+id/stepCountTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:gravity="center"
-        android:text="Steps today: 0"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_weight" />
-
-    <TextView
         android:id="@+id/caloriesTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:text="Calories burned at rest: "
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepCountTextView" />
+        app:layout_constraintTop_toBottomOf="@id/button_weight" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_einstellungen"
@@ -114,6 +101,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewBMI" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-

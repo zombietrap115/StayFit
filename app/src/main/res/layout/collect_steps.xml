@@ -7,34 +7,63 @@
     tools:context=".MainActivity"
     android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/collectSteps"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:text="Step Counter"
-        android:layout_margin="20dp"
-        android:textColor="#3a9bdc"
-        android:textStyle="bold"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/button_background"
+        android:text="Collect steps"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/resetSteps"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/collectSteps"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/button_background"
+        android:text="Reset Progress"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
-
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:background="@drawable/circular_shape"
             android:max="8000"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/circular_shape"
             android:progressDrawable="@drawable/circular_progress_bar"
 
-
-
+            />
+        <TextView
+            android:id="@+id/steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="28sp"
+            android:textColor="#FF152F63"
+            android:textStyle="bold"
             />
 
         <TextView
+            android:id="@+id/goalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Goal: 8000"
@@ -46,18 +75,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/steps"
-        android:layout_width="92dp"
-        android:layout_height="81dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="134dp"
-        android:layout_marginEnd="185dp"
-        android:text="Steps"
-        android:textColor="#FF152F63"
-        android:textSize="28sp"
-        android:textStyle="bold" />
 
 
 </RelativeLayout>

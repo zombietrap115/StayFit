@@ -27,7 +27,7 @@
             android:exported="false"
             />
         <activity
-            android:name=".Settings"
+            android:name=".Settings.Settings"
             android:exported="false"
             />
         <activity
@@ -51,7 +51,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".Settings.AlarmReceiver"/>
     </application>
 
 
